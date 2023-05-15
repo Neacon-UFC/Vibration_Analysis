@@ -1,0 +1,181 @@
+[
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "Lamotriz Mqtt Server",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "22aec391cf284a0d",
+        "type": "mqtt-broker",
+        "name": "Lamotriz Mqtt Broker IP",
+        "broker": "10.101.94.54",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "cbcd17d99df9b38c",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "motores/corrente/fase_a",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "22aec391cf284a0d",
+        "x": 170,
+        "y": 100,
+        "wires": [
+            [
+                "299e62c3.2267ae"
+            ]
+        ]
+    },
+    {
+        "id": "a5f3c25f5b8c3a98",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "motores/comando_ld",
+        "payload": "false",
+        "payloadType": "bool",
+        "x": 190,
+        "y": 360,
+        "wires": [
+            [
+                "f6f46b0db5d17c96"
+            ]
+        ]
+    },
+    {
+        "id": "f6f46b0db5d17c96",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "broker": "22aec391cf284a0d",
+        "x": 470,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "46196321.aee81c",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "motores/corrente/fase_b",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "22aec391cf284a0d",
+        "x": 170,
+        "y": 160,
+        "wires": [
+            [
+                "299e62c3.2267ae"
+            ]
+        ]
+    },
+    {
+        "id": "59eb3e85.d92a6",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "motores/corrente/fase_c",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "22aec391cf284a0d",
+        "x": 170,
+        "y": 220,
+        "wires": [
+            [
+                "299e62c3.2267ae"
+            ]
+        ]
+    },
+    {
+        "id": "299e62c3.2267ae",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 490,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "e48886a9.4fbb58",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "motores/pwm",
+        "payload": "false",
+        "payloadType": "bool",
+        "x": 170,
+        "y": 420,
+        "wires": [
+            [
+                "24cdbfa1.910dd"
+            ]
+        ]
+    },
+    {
+        "id": "24cdbfa1.910dd",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "broker": "22aec391cf284a0d",
+        "x": 470,
+        "y": 420,
+        "wires": []
+    }
+]
