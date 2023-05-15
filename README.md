@@ -18,75 +18,7 @@ To develop and test, we'll set a Linux environment to generate the mqtt broker a
 
 If you are using a Linux OS, you can follow this tutorial:
 
-## Installing Mosquitto
-
-### 1. Install the Mosquitto Server
-
-You'll pull the mosquitto package from Ubuntu's software repository by executing the following steps.
-
-1. Update the package information index.
-
-```sh
-    $ sudo apt update 
-```
-
-2. Install the mosquitto package.
-
-```sh
-    $ sudo apt install -y mosquitto
-```
-
-3. The mosquitto package should now load on your server. Confirm the status of the mosquitto service.
-
-```sh
-    $ sudo systemctl status mosquitto
-```
-
-Ensure the package is loaded and active.
-
-```
-    ● mosquitto.service - Mosquitto MQTT Broker
-     Loaded: loaded (/lib/systemd/system/mosquitto.service; disabled; vendor preset: enabled)
-     Active: active (running) since Mon 2023-04-24 16:36:34 -03; 1s ago
-       Docs: man:mosquitto.conf(5)
-             man:mosquitto(8)
-    ...
-```
-
-4. Once running, you can manage the mosquitto services by executing the following commands.
-
-    - Stop the mosquitto service:
-    ```sh
-        $ sudo systemctl stop mosquitto
-    ```
-    - Start the mosquitto service:
-    ```sh
-        $ sudo systemctl start mosquitto
-    ```
-    - Restart the mosquitto service:
-    ```sh
-        $ sudo systemctl restart mosquitto
-    ```
-
-After that, to allow the mosquitto to be hosted for all your network, instead just your localhost, you should go to mosquitto.conf, located in:
-
-```
-    /etc/mosquitto/mosquitto.conf
-```
-
-And then set the port you want, and set allow_anonymous as true.
-
-```
-    # Plain MQTT protocol
-    listener 1883 
-    allow_anonymous true
-```
-
-After that, anyone in your network will be allowed to send messages using the broker. 
-
-**For now we'll use that, in the future we should add a security using login and password to access.**
-
-### 2. Install Node-RED
+## 1. Install Node-RED
 
 You can follow the tutorial in [Node-RED site](https://nodered.org/docs/getting-started/local) or just follow the steps bellow.
 
@@ -126,4 +58,26 @@ You can follow the tutorial in [Node-RED site](https://nodered.org/docs/getting-
     30 Jun 23:43:44 - [info] Starting flows
     30 Jun 23:43:44 - [info] Started flows
     30 Jun 23:43:44 - [info] Server now running at http://127.0.0.1:1880/red/
+```
+
+## 1. Install Node-RED Libraries
+
+### 1.1 Aedes
+
+You can follow the tutorial in [Node-RED page](https://flows.nodered.org/node/node-red-contrib-aedes) or the tutorial bellow.
+
+To install the node from the command-line, you can use the following command from within your user data directory (by default, $HOME/.node-red):
+
+```sh
+    npm install node-red-contrib-aedes
+```
+
+### 1.2 ChartJs
+
+You can follow the tutorial in [Node-RED page](https://flows.nodered.org/node/node-red-contrib-chartjs) or the tutorial bellow.
+
+To install the node from the command-line, you can use the following command from within your user data directory (by default, $HOME/.node-red):
+
+```sh
+    npm install node-red-contrib-chartjs --save
 ```
