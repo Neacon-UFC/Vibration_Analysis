@@ -1,12 +1,10 @@
-/**********************
+/**************************************************************
  * University Federal of Ceará - UFC                          *
  * Lamotriz - Laboratory (Driving Force Systems Laboratory)   *
  * Author: Joel Pontes                                        *
- * ********************/
+ * ************************************************************/
 
 // Libraries
-//#include <Adafruit_MPU6050.h>
-//#include <Adafruit_Sensor.h>
 #include <Wire.h>
 #include <WiFi.h>
 #include <PubSubClient.h>
@@ -30,26 +28,30 @@
 #define serial_speed 115200
 
 // Defining timer MPU 
-#define mpu_timer 100  // Ts = 0.1s
+#define mpu_timer 1000  // Ts = 0.01s
 
 // MPU-6050 I2C Address
 const int MPU_addr=0x68;
 const int size_request=14;
 
 // Wifi Parameters
-const char* ssid = "Lamotriz";
+const char* ssid = "Lamotriz_EXT";
 const char* password = "lamotrizwifi2";
 
 // Mqtt Parameters
-const char* mqtt_server = "10.101.94.64";             // Mqtt Broker IP
+const char* mqtt_server = "10.101.94.55";             // Mqtt Broker IP
 // Mqtt Topics
 const char* mqtt_topic = "mpu6050/acceleration/x";
 const char* mqtt_topic2 = "mpu6050/acceleration/y";
 const char* mqtt_topic3 = "mpu6050/acceleration/z";
 const char* mqtt_topic4 = "mpu6050/acceleration/samples";
+const char* mqtt_topic5 = "mpu6050/acceleration/open_loop";
 
 // Number of samples to send by Mqtt
 int acceleration_samples = 0;
+
+// Open Loop
+int open_loop = 0;
 
 // Global Variables
 // Aceleration for each axe
@@ -117,6 +119,7 @@ void setup() {
       mqttClient.subscribe(mqtt_topic2);
       mqttClient.subscribe(mqtt_topic3);
       mqttClient.subscribe(mqtt_topic4);
+      mqttClient.subscribe(mqtt_topic5);
 
     } else {
       Serial.print("Failed, rc=");
@@ -135,13 +138,22 @@ void setup() {
 }
 
 void loop() {
-
   // Timer for the MPU routine
-  if (millis()-mpu_last_time >= mpu_timer){
+  if (micros()-mpu_last_time >= mpu_timer){
     // Reading MPU data
     mpu_read();
 
-    if(acceleration_samples){
+    if(open_loop){
+      Serial.print("Ax:");
+      Serial.print(Ax);
+      Serial.print(",");
+      Serial.print("Ay:");
+      Serial.print(Ay);
+      Serial.print(",");
+      Serial.print("Az:");
+      Serial.println(Az);
+    }
+    else if(acceleration_samples){
       // Sending data by Mqtt
       String message = String(Ax);
       mqttClient.publish(mqtt_topic, message.c_str());
@@ -152,7 +164,7 @@ void loop() {
       acceleration_samples--;
     }
 
-    mpu_last_time = millis();
+    mpu_last_time = micros();
   }
   
   // Mqtt Loop
@@ -227,6 +239,14 @@ void callback(char* topic, byte* payload, unsigned int length) {
     Serial.print("Acceleration Sample Size = [");
     Serial.print(acceleration_samples);
     Serial.print("] ");
+  }
+  // Routine to topic 5
+  if(!strcmp(topic, mqtt_topic5)){
+    String message;
+    for (int i = 0; i < length; i++) {
+      message += (char)payload[i];
+    }
+    open_loop = message.toInt();
   }
 }
 

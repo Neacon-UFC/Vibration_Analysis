@@ -64,4 +64,4 @@ And then set the port you want, and set allow_anonymous as true.
 
 After that, anyone in your network will be allowed to send messages using the broker. 
 
-**For now we'll use that, in the future we should add a security using login and password to access.**
+**Need to add the security using login and password to access.**

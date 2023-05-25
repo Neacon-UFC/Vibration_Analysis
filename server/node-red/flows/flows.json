@@ -1,0 +1,647 @@
+[
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "Lamotriz Mqtt Server",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "02a15d5e67bd2ecc",
+        "type": "tab",
+        "label": "Broker Lamotriz",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "df521596.125698",
+        "type": "subflow",
+        "name": "Persistence Helper",
+        "info": "",
+        "in": [
+            {
+                "x": 45.5,
+                "y": 85,
+                "wires": [
+                    {
+                        "id": "37028a91.0b1ffe"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 749.5,
+                "y": 53,
+                "wires": [
+                    {
+                        "id": "230dfeb6.8ba792",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 755,
+                "y": 169,
+                "wires": [
+                    {
+                        "id": "856afee0.348098",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "22aec391cf284a0d",
+        "type": "mqtt-broker",
+        "name": "Lamotriz Mqtt Broker IP",
+        "broker": "10.101.94.55",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "compatmode": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "230dfeb6.8ba792",
+        "type": "change",
+        "z": "df521596.125698",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "action",
+                "pt": "msg",
+                "to": "restore",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 589.5,
+        "y": 53,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "37028a91.0b1ffe",
+        "type": "json",
+        "z": "df521596.125698",
+        "name": "",
+        "x": 175.5,
+        "y": 85,
+        "wires": [
+            [
+                "230dfeb6.8ba792"
+            ]
+        ]
+    },
+    {
+        "id": "b78fb72d.ec3d78",
+        "type": "catch",
+        "z": "df521596.125698",
+        "name": "",
+        "scope": [
+            "37028a91.0b1ffe"
+        ],
+        "x": 183.5,
+        "y": 117,
+        "wires": [
+            [
+                "c7f43b1c.b7b5d8"
+            ]
+        ]
+    },
+    {
+        "id": "c7f43b1c.b7b5d8",
+        "type": "change",
+        "z": "df521596.125698",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[]",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 354.5,
+        "y": 116,
+        "wires": [
+            [
+                "230dfeb6.8ba792"
+            ]
+        ]
+    },
+    {
+        "id": "856afee0.348098",
+        "type": "inject",
+        "z": "df521596.125698",
+        "name": "Trigger restore",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 618.5,
+        "y": 169,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cbcd17d99df9b38c",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "mpu6050/acceleration/x",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "22aec391cf284a0d",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 140,
+        "y": 100,
+        "wires": [
+            [
+                "99773f6b91d9c5a5"
+            ]
+        ]
+    },
+    {
+        "id": "a5f3c25f5b8c3a98",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "mpu6050/acceleration/x",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 170,
+        "y": 740,
+        "wires": [
+            [
+                "f6f46b0db5d17c96"
+            ]
+        ]
+    },
+    {
+        "id": "f6f46b0db5d17c96",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "22aec391cf284a0d",
+        "x": 450,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "46196321.aee81c",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "mpu6050/acceleration/y",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "22aec391cf284a0d",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 140,
+        "y": 160,
+        "wires": [
+            [
+                "99773f6b91d9c5a5"
+            ]
+        ]
+    },
+    {
+        "id": "59eb3e85.d92a6",
+        "type": "mqtt in",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "mpu6050/acceleration/z",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "22aec391cf284a0d",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 140,
+        "y": 220,
+        "wires": [
+            [
+                "99773f6b91d9c5a5"
+            ]
+        ]
+    },
+    {
+        "id": "e48886a9.4fbb58",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "mpu6050/acceleration/samples",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "mpu6050/acceleration/samples",
+        "payload": "10000",
+        "payloadType": "num",
+        "x": 190,
+        "y": 520,
+        "wires": [
+            [
+                "24cdbfa1.910dd",
+                "5beb48f23275d8fb"
+            ]
+        ]
+    },
+    {
+        "id": "24cdbfa1.910dd",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "22aec391cf284a0d",
+        "x": 450,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "68ba9627bb86b447",
+        "type": "chartjs-line",
+        "z": "f6f2187d.f17ca8",
+        "name": "Acceleration Line Chart",
+        "path": "acceleration",
+        "charttitle": "Acceleration (0.1 Ts)",
+        "xaxis": "Iteration",
+        "yaxis": "Acceleration",
+        "x": 1010,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "99773f6b91d9c5a5",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Save Acceleration Values",
+        "func": "switch (msg.topic){\n\n    case 'mpu6050/acceleration/x':\n        // Creating the variable and getting data from flow (if already exists)\n        var acceleration_x = flow.get('acceleration_x') || [];\n        // If not exists, I create a variable\n        if (flow.acceleration_x == undefined){\n            flow.acceleration_x = [];\n        }\n        // Adding the value\n        acceleration_x.push(parseFloat(msg.payload));\n        // Setting acceleration array\n        flow.set('acceleration_x', acceleration_x);\n\n        break;\n    case 'mpu6050/acceleration/y':\n        var acceleration_y = flow.get('acceleration_y') || [];\n\n        if (flow.acceleration_y == undefined) {\n            flow.acceleration_y = [];\n        }\n\n        acceleration_y.push(parseFloat(msg.payload));\n        flow.set('acceleration_y', acceleration_y);\n\n        break;\n\n    case 'mpu6050/acceleration/z':\n        var acceleration_z = flow.get('acceleration_z') || [];\n\n        if (flow.acceleration_z == undefined) {\n            flow.acceleration_z = [];\n        }\n\n        acceleration_z.push(parseFloat(msg.payload));\n        flow.set('acceleration_z', acceleration_z);\n\n        break;\n\n    default:\n        break;\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a9e86ae8ed409c76",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Prepare Chart Data",
+        "func": "// Getting data from Flow\nvar acceleration_x = flow.get('acceleration_x') || [];\nvar acceleration_y = flow.get('acceleration_y') || [];\nvar acceleration_z = flow.get('acceleration_z') || [];\n//\nvar dataset = [];\n\n// Cleaning payload.\nmsg.payload = [];\n\n// Preparing dataset\nfor (var i=0; i < acceleration_x.length; i++){\n    dataset.push({\n        x: i,\n        y: acceleration_x[i]\n    })\n}\n\n// Making object\nmsg.payload.push({\n    \"channel\": \"Acceleration X\",\n    \"color\": \"blue\",\n    \"dataset\": dataset\n})\n\n// Doing the same for Acceleration Y and Z\ndataset = [];\n\nfor (var i = 0; i < acceleration_y.length; i++) {\n    dataset.push({\n        x: i,\n        y: acceleration_y[i]\n    })\n}\n\nmsg.payload.push({\n    \"channel\": \"Acceleration Y\",\n    \"color\": \"red\",\n    \"dataset\": dataset\n})\n\ndataset = [];\n\nfor (var i = 0; i < acceleration_z.length; i++) {\n    dataset.push({\n        x: i,\n        y: acceleration_z[i]\n    })\n}\n\nmsg.payload.push({\n    \"channel\": \"Acceleration Z\",\n    \"color\": \"green\",\n    \"dataset\": dataset\n})\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 300,
+        "wires": [
+            [
+                "68ba9627bb86b447"
+            ]
+        ]
+    },
+    {
+        "id": "39d8fac20a4d2d14",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "mpu6050/acceleration/y",
+        "payload": "2",
+        "payloadType": "num",
+        "x": 170,
+        "y": 800,
+        "wires": [
+            [
+                "12cf8b86cd80d20c"
+            ]
+        ]
+    },
+    {
+        "id": "12cf8b86cd80d20c",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "broker": "22aec391cf284a0d",
+        "x": 450,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "65ab3946e3cb81a4",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "mpu6050/acceleration/z",
+        "payload": "3",
+        "payloadType": "num",
+        "x": 170,
+        "y": 860,
+        "wires": [
+            [
+                "4bf1532799c698b5"
+            ]
+        ]
+    },
+    {
+        "id": "4bf1532799c698b5",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "broker": "22aec391cf284a0d",
+        "x": 450,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "2bfed19396534258",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Last 100 samples",
+        "func": "// Getting data from Flow\nvar acceleration_x = flow.get('acceleration_x') || [];\nvar acceleration_y = flow.get('acceleration_y') || [];\nvar acceleration_z = flow.get('acceleration_z') || [];\n//\nvar dataset = [];\nvar i = 0;\n\n// Cleaning payload.\nmsg.payload = [];\n\nif (acceleration_x.length >= 100){\n    i = acceleration_x.length-100;\n}else{\n    i = 0;\n}\n\n// Preparing dataset\nfor (i; i < acceleration_x.length; i++){\n    dataset.push({\n        x: i,\n        y: acceleration_x[i]\n    })\n}\n\n// Making object\nmsg.payload.push({\n    \"channel\": \"Acceleration X\",\n    \"color\": \"blue\",\n    \"dataset\": dataset\n})\n\n// Doing the same for Acceleration Y and Z\ndataset = [];\n\nif (acceleration_y.length >= 100) {\n    i = acceleration_y.length - 100;\n} else {\n    i = 0;\n}\n\nfor (i; i < acceleration_y.length; i++) {\n    dataset.push({\n        x: i,\n        y: acceleration_y[i]\n    })\n}\n\nmsg.payload.push({\n    \"channel\": \"Acceleration Y\",\n    \"color\": \"red\",\n    \"dataset\": dataset\n})\n\ndataset = [];\n\nif (acceleration_z.length >= 100) {\n    i = acceleration_z.length - 100;\n} else {\n    i = 0;\n}\n\nfor (i; i < acceleration_z.length; i++) {\n    dataset.push({\n        x: i,\n        y: acceleration_z[i]\n    })\n}\n\nmsg.payload.push({\n    \"channel\": \"Acceleration Z\",\n    \"color\": \"green\",\n    \"dataset\": dataset\n})\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 160,
+        "wires": [
+            [
+                "68ba9627bb86b447"
+            ]
+        ]
+    },
+    {
+        "id": "5beb48f23275d8fb",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Cleaning Flow Variables",
+        "func": "flow.set('acceleration_x', null);\nflow.set('acceleration_y', null);\nflow.set('acceleration_z', null);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7d3527dabef5b490",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "Plot Chart",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 520,
+        "y": 300,
+        "wires": [
+            [
+                "a9e86ae8ed409c76"
+            ]
+        ]
+    },
+    {
+        "id": "4c1d0f64dbdfb75e",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "To be used in tests",
+        "info": "",
+        "x": 130,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "dd855f2d4b941fd1",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "Plot chart button",
+        "info": "After we finish to get the data, we can plot it using this button.\n\n**Observations:**\n_For long range data, the chart is not looking good._",
+        "x": 520,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "8e2097f9735aeb2f",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "Reciving the data and saving in flow memory.",
+        "info": "",
+        "x": 210,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "5ad148ef431674ba",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "Button to start the sample collection.",
+        "info": "_This button publish a message with the range of sample necessary, then the ESP32 will receive and start to collect._",
+        "x": 180,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "325d9b58f8daee24",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "Clean Flow Data",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 240,
+        "y": 600,
+        "wires": [
+            [
+                "5beb48f23275d8fb"
+            ]
+        ]
+    },
+    {
+        "id": "4e1039e68c6d5996",
+        "type": "aedes broker",
+        "z": "02a15d5e67bd2ecc",
+        "name": "",
+        "mqtt_port": 1883,
+        "mqtt_ws_bind": "port",
+        "mqtt_ws_port": "",
+        "mqtt_ws_path": "",
+        "cert": "",
+        "key": "",
+        "certname": "",
+        "keyname": "",
+        "persistence_bind": "memory",
+        "dburl": "",
+        "usetls": false,
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "2cddec36056590a3"
+            ],
+            [
+                "7177f2301b8fab33"
+            ]
+        ]
+    },
+    {
+        "id": "2cddec36056590a3",
+        "type": "debug",
+        "z": "02a15d5e67bd2ecc",
+        "name": "Broker Status Event",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "7177f2301b8fab33",
+        "type": "debug",
+        "z": "02a15d5e67bd2ecc",
+        "name": "Broker Publish Event",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 100,
+        "wires": []
+    }
+]
