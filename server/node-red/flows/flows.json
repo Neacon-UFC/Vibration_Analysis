@@ -57,7 +57,7 @@
         "id": "22aec391cf284a0d",
         "type": "mqtt-broker",
         "name": "Lamotriz Mqtt Broker IP",
-        "broker": "10.101.94.55",
+        "broker": "10.101.94.49",
         "port": "1883",
         "clientid": "",
         "autoConnect": true,
@@ -200,53 +200,6 @@
         ]
     },
     {
-        "id": "a5f3c25f5b8c3a98",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "mpu6050/acceleration/x",
-        "payload": "1",
-        "payloadType": "num",
-        "x": 170,
-        "y": 740,
-        "wires": [
-            [
-                "f6f46b0db5d17c96"
-            ]
-        ]
-    },
-    {
-        "id": "f6f46b0db5d17c96",
-        "type": "mqtt out",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "topic": "",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "22aec391cf284a0d",
-        "x": 450,
-        "y": 740,
-        "wires": []
-    },
-    {
         "id": "46196321.aee81c",
         "type": "mqtt in",
         "z": "f6f2187d.f17ca8",
@@ -305,10 +258,10 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "mpu6050/acceleration/samples",
-        "payload": "10000",
-        "payloadType": "num",
+        "payload": "sample_size",
+        "payloadType": "flow",
         "x": 190,
-        "y": 520,
+        "y": 580,
         "wires": [
             [
                 "24cdbfa1.910dd",
@@ -331,7 +284,7 @@
         "expiry": "",
         "broker": "22aec391cf284a0d",
         "x": 450,
-        "y": 520,
+        "y": 580,
         "wires": []
     },
     {
@@ -340,7 +293,7 @@
         "z": "f6f2187d.f17ca8",
         "name": "Acceleration Line Chart",
         "path": "acceleration",
-        "charttitle": "Acceleration (0.1 Ts)",
+        "charttitle": "Acceleration (0.001 Ts)",
         "xaxis": "Iteration",
         "yaxis": "Acceleration",
         "x": 1010,
@@ -354,7 +307,7 @@
         "type": "function",
         "z": "f6f2187d.f17ca8",
         "name": "Save Acceleration Values",
-        "func": "switch (msg.topic){\n\n    case 'mpu6050/acceleration/x':\n        // Creating the variable and getting data from flow (if already exists)\n        var acceleration_x = flow.get('acceleration_x') || [];\n        // If not exists, I create a variable\n        if (flow.acceleration_x == undefined){\n            flow.acceleration_x = [];\n        }\n        // Adding the value\n        acceleration_x.push(parseFloat(msg.payload));\n        // Setting acceleration array\n        flow.set('acceleration_x', acceleration_x);\n\n        break;\n    case 'mpu6050/acceleration/y':\n        var acceleration_y = flow.get('acceleration_y') || [];\n\n        if (flow.acceleration_y == undefined) {\n            flow.acceleration_y = [];\n        }\n\n        acceleration_y.push(parseFloat(msg.payload));\n        flow.set('acceleration_y', acceleration_y);\n\n        break;\n\n    case 'mpu6050/acceleration/z':\n        var acceleration_z = flow.get('acceleration_z') || [];\n\n        if (flow.acceleration_z == undefined) {\n            flow.acceleration_z = [];\n        }\n\n        acceleration_z.push(parseFloat(msg.payload));\n        flow.set('acceleration_z', acceleration_z);\n\n        break;\n\n    default:\n        break;\n}\n\nreturn msg;",
+        "func": "switch (msg.topic){\n\n    case 'mpu6050/acceleration/x':\n        // Creating the variable and getting data from flow (if already exists)\n        var acceleration_x = flow.get('acceleration_x') || [];\n\n        // Adding the value\n        acceleration_x.push(parseFloat(msg.payload));\n\n        // Setting acceleration array\n        flow.set('acceleration_x', acceleration_x);\n\n        break;\n    case 'mpu6050/acceleration/y':\n        var acceleration_y = flow.get('acceleration_y') || [];\n\n        acceleration_y.push(parseFloat(msg.payload));\n        flow.set('acceleration_y', acceleration_y);\n\n        break;\n\n    case 'mpu6050/acceleration/z':\n        var acceleration_z = flow.get('acceleration_z') || [];\n\n        acceleration_z.push(parseFloat(msg.payload));\n        flow.set('acceleration_z', acceleration_z);\n\n        break;\n\n    default:\n        break;\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -363,7 +316,9 @@
         "x": 470,
         "y": 160,
         "wires": [
-            []
+            [
+                "2bfed19396534258"
+            ]
         ]
     },
     {
@@ -384,90 +339,6 @@
                 "68ba9627bb86b447"
             ]
         ]
-    },
-    {
-        "id": "39d8fac20a4d2d14",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "mpu6050/acceleration/y",
-        "payload": "2",
-        "payloadType": "num",
-        "x": 170,
-        "y": 800,
-        "wires": [
-            [
-                "12cf8b86cd80d20c"
-            ]
-        ]
-    },
-    {
-        "id": "12cf8b86cd80d20c",
-        "type": "mqtt out",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "topic": "",
-        "qos": "",
-        "retain": "",
-        "broker": "22aec391cf284a0d",
-        "x": 450,
-        "y": 800,
-        "wires": []
-    },
-    {
-        "id": "65ab3946e3cb81a4",
-        "type": "inject",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "mpu6050/acceleration/z",
-        "payload": "3",
-        "payloadType": "num",
-        "x": 170,
-        "y": 860,
-        "wires": [
-            [
-                "4bf1532799c698b5"
-            ]
-        ]
-    },
-    {
-        "id": "4bf1532799c698b5",
-        "type": "mqtt out",
-        "z": "f6f2187d.f17ca8",
-        "name": "",
-        "topic": "",
-        "qos": "",
-        "retain": "",
-        "broker": "22aec391cf284a0d",
-        "x": 450,
-        "y": 860,
-        "wires": []
     },
     {
         "id": "2bfed19396534258",
@@ -500,7 +371,7 @@
         "finalize": "",
         "libs": [],
         "x": 510,
-        "y": 600,
+        "y": 660,
         "wires": [
             []
         ]
@@ -523,16 +394,6 @@
                 "a9e86ae8ed409c76"
             ]
         ]
-    },
-    {
-        "id": "4c1d0f64dbdfb75e",
-        "type": "comment",
-        "z": "f6f2187d.f17ca8",
-        "name": "To be used in tests",
-        "info": "",
-        "x": 130,
-        "y": 680,
-        "wires": []
     },
     {
         "id": "dd855f2d4b941fd1",
@@ -561,7 +422,7 @@
         "name": "Button to start the sample collection.",
         "info": "_This button publish a message with the range of sample necessary, then the ESP32 will receive and start to collect._",
         "x": 180,
-        "y": 460,
+        "y": 520,
         "wires": []
     },
     {
@@ -576,11 +437,149 @@
         "onceDelay": 0.1,
         "topic": "",
         "x": 240,
-        "y": 600,
+        "y": 660,
         "wires": [
             [
                 "5beb48f23275d8fb"
             ]
+        ]
+    },
+    {
+        "id": "84653654db37fff2",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "Start Open Loop",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "mpu6050/acceleration/open_loop",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 140,
+        "y": 800,
+        "wires": [
+            [
+                "04cd24d5998bb832"
+            ]
+        ]
+    },
+    {
+        "id": "04cd24d5998bb832",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "topic": "",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "22aec391cf284a0d",
+        "x": 330,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "84c43ed5d4077954",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "Stop Open Loop",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "mpu6050/acceleration/open_loop",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 140,
+        "y": 880,
+        "wires": [
+            [
+                "04cd24d5998bb832"
+            ]
+        ]
+    },
+    {
+        "id": "cad73dbd495e516a",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "Sending data to Serial Plotter",
+        "info": "",
+        "x": 160,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "1529a5651a58a56f",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "Setup Flow Variables",
+        "info": "",
+        "x": 140,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "fa7fe6a6dd2850f4",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "Execute function",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 140,
+        "y": 440,
+        "wires": [
+            [
+                "d823b8e497087b64"
+            ]
+        ]
+    },
+    {
+        "id": "d823b8e497087b64",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "Create Flow Variables",
+        "func": "flow.set('device', 'esp32');\nflow.set('motor', 'WEG');\nflow.set('sensor', 'MPU-6050');\nflow.set('voltage', 380);\nflow.set('frequency', 60);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 440,
+        "wires": [
+            []
         ]
     },
     {
